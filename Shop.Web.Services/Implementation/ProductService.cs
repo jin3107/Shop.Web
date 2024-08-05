@@ -38,17 +38,30 @@ namespace Shop.Web.Services.Implementation
         public async Task AddAsync(ProductDTO productDto)
         {
             var product = _mapper.Map<Product>(productDto);
+            product.Id = Guid.NewGuid();
             await _productRepository.AddAsync(product);
         }
 
         public async Task UpdateAsync(ProductDTO productDto)
         {
-            var product = _mapper.Map<Product>(productDto);
+            var product = await _productRepository.GetByIdAsync(productDto.Id);
+            if (product == null)
+            {
+                throw new Exception($"Product Id does not found");
+            }
+
+            _mapper.Map(product, productDto);
             await _productRepository.UpdateAsync(product);
         }
 
         public async Task DeleteAsync(Guid id)
         {
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                throw new Exception($"Product Id does not found");
+            }
+
             await _productRepository.DeleteAsync(id);
         }
     }

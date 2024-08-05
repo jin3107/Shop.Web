@@ -38,17 +38,30 @@ namespace Shop.Web.Services.Implementation
         public async Task AddCategoryAsync(CategoryDTO categoryDto)
         {
             var category = _mapper.Map<Category>(categoryDto);
+            category.Id = Guid.NewGuid();
             await _categoryRepository.AddAsync(category);
         }
 
         public async Task UpdateCategoryAsync(CategoryDTO categoryDto)
         {
-            var category = _mapper.Map<Category>(categoryDto);
+            var category = await _categoryRepository.GetByIdAsync(categoryDto.Id);
+            if (category == null)
+            {
+                throw new Exception($"Category Id does not found");
+            }
+
+            _mapper.Map(category, categoryDto);
             await _categoryRepository.UpdateAsync(category);
         }
 
         public async Task DeleteCategoryAsync(Guid id)
         {
+            var category = await _categoryRepository.GetByIdAsync(id);
+            if (category == null)
+            {
+                throw new Exception($"Category Id does not found");
+            }
+
             await _categoryRepository.DeleteAsync(id);
         }
     }

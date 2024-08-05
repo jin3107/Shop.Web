@@ -38,17 +38,30 @@ namespace Shop.Web.Services.Implementation
         public async Task AddOrderItemAsync(OrderItemDTO orderItemDto)
         {
             var orderItem = _mapper.Map<OrderItem>(orderItemDto);
+            orderItem.Id = Guid.NewGuid();
             await _orderItemRepository.AddAsync(orderItem);
         }
 
         public async Task UpdateOrderItemAsync(OrderItemDTO orderItemDto)
         {
-            var orderItem = _mapper.Map<OrderItem>(orderItemDto);
+            var orderItem = await _orderItemRepository.GetByIdAsync(orderItemDto.Id);
+            if (orderItem == null)
+            {
+                throw new Exception($"OrderItem Id does not found");
+            }
+
+            _mapper.Map(orderItem, orderItemDto);
             await _orderItemRepository.UpdateAsync(orderItem);
         }
 
         public async Task DeleteOrderItemAsync(Guid id)
         {
+            var orderItem = await _orderItemRepository.GetByIdAsync(id);
+            if (orderItem == null)
+            {
+                throw new Exception($"OrderItem Id does not found");
+            }
+
             await _orderItemRepository.DeleteAsync(id);
         }
     }
