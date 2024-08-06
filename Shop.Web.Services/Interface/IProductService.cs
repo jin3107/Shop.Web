@@ -1,4 +1,6 @@
 ﻿using Shop.Web.DTOs;
+using Shop.Web.Infratructures.Request;
+using Shop.Web.Infratructures.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +16,7 @@ namespace Shop.Web.Services.Interface
         Task AddAsync(ProductDTO productDto);
         Task UpdateAsync(ProductDTO productDto);
         Task DeleteAsync(Guid id);
+
+        Task<SearchResponse<ProductDTO>> SearchProductsAsync(List<Filter> filters, SortByInfo sortBy, int pageNumber, int pageSize);
     }
 }

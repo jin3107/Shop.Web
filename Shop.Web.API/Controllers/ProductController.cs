@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Web.DTOs;
+using Shop.Web.Infratructures.Request;
 using Shop.Web.Services.Interface;
 
 namespace Shop.Web.API.Controllers
@@ -18,14 +19,23 @@ namespace Shop.Web.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<ActionResult<IEnumerable<ProductDTO>>> GetAllProducts()
         {
-            var products = await _productService.GetAllAsync();
-            return Ok(products);
+            try
+            {
+                var products = await _productService.GetAllAsync();
+                return Ok(products);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            } 
+            
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin, Manager")]
         public async Task<ActionResult<ProductDTO>> GetProductById(Guid id)
         {
             var product = await _productService.GetByIdAsync(id);
@@ -63,6 +73,37 @@ namespace Shop.Web.API.Controllers
         {
             await _productService.DeleteAsync(id);
             return NoContent();
+        }
+
+        [HttpPost("search-product")]
+        public async Task<IActionResult> SearchProducts([FromBody] SearchRequest searchRequest)
+        {
+            try
+            {
+                if (searchRequest == null)
+                {
+                    return BadRequest("Invalid search request");
+                }
+
+                var defaultSortBy = new SortByInfo
+                {
+                    FieldName = "Name",
+                    Accending = true,
+                };
+
+                var searchResponse = await _productService.SearchProductsAsync(
+                    searchRequest.Filters ?? new List<Filter>(),
+                    searchRequest.SortBy ?? defaultSortBy,
+                    searchRequest.PageNumber ?? 1,
+                    searchRequest.PageSize ?? 10
+                );
+
+                return Ok(searchResponse);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

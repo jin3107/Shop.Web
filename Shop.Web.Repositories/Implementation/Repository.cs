@@ -38,7 +38,7 @@ namespace Shop.Web.Repositories.Implementation
 
         public async Task UpdateAsync(T entity)
         {
-            _dbSet.Update(entity);
+            _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
 

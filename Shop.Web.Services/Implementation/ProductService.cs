@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Shop.Web.DTOs;
+using Shop.Web.Infratructures.Request;
+using Shop.Web.Infratructures.Response;
 using Shop.Web.Models.Entity;
+using Shop.Web.Repositories.Implementation;
 using Shop.Web.Repositories.Interface;
 using Shop.Web.Services.Interface;
 using System;
@@ -63,6 +66,11 @@ namespace Shop.Web.Services.Implementation
             }
 
             await _productRepository.DeleteAsync(id);
+        }
+
+        public async Task<SearchResponse<ProductDTO>> SearchProductsAsync(List<Filter> filters, SortByInfo sortBy, int pageNumber, int pageSize)
+        {
+            return await _productRepository.SearchAsync(filters, sortBy, pageNumber, pageSize);
         }
     }
 }

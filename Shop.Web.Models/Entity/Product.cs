@@ -27,6 +27,10 @@ namespace Shop.Web.Models.Entity
         public decimal Price { get; set; }
 
         [Required]
+        [Range(0, int.MaxValue)]
+        public int Quantity { get; set; }
+
+        [Required]
         public int Stock { get; set; }
 
         [ForeignKey("Category")]

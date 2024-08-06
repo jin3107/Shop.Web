@@ -3,17 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Web.API", "Shop.Web.API\Shop.Web.API.csproj", "{1A9E5724-A86E-49DE-A5E9-C785C4AA5447}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Web.API", "Shop.Web.API\Shop.Web.API.csproj", "{1A9E5724-A86E-49DE-A5E9-C785C4AA5447}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Web.Models", "Shop.Web.Models\Shop.Web.Models.csproj", "{017A681E-429E-4F05-8425-3EDDEF41B2B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Web.Models", "Shop.Web.Models\Shop.Web.Models.csproj", "{017A681E-429E-4F05-8425-3EDDEF41B2B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Web.Infratructures", "Shop.Web.Infratructures\Shop.Web.Infratructures.csproj", "{8A14E37B-3FA8-4A7D-ABEA-7E7B6C64439B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Web.Infratructures", "Shop.Web.Infratructures\Shop.Web.Infratructures.csproj", "{8A14E37B-3FA8-4A7D-ABEA-7E7B6C64439B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Web.Services", "Shop.Web.Services\Shop.Web.Services.csproj", "{268A9173-3F75-4F1E-8FD4-79B4CE2E4E45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Web.Services", "Shop.Web.Services\Shop.Web.Services.csproj", "{268A9173-3F75-4F1E-8FD4-79B4CE2E4E45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Web.Repositories", "Shop.Web.Repositories\Shop.Web.Repositories.csproj", "{E93F63C4-D99D-42FA-AAAC-9C9F069C8C0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Web.Repositories", "Shop.Web.Repositories\Shop.Web.Repositories.csproj", "{E93F63C4-D99D-42FA-AAAC-9C9F069C8C0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shop.Web.DTOs", "Shop.Web.DTOs\Shop.Web.DTOs.csproj", "{09424AAE-6508-4B20-BDB5-EFBDD24A4A30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shop.Web.DTOs", "Shop.Web.DTOs\Shop.Web.DTOs.csproj", "{09424AAE-6508-4B20-BDB5-EFBDD24A4A30}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{833A8E25-C058-4523-B66D-F26FC73ADE17}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

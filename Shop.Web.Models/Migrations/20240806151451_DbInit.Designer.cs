@@ -12,8 +12,8 @@ using Shop.Web.Models.Data;
 namespace Shop.Web.Models.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240805082908_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240806151451_DbInit")]
+    partial class DbInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -304,6 +304,9 @@ namespace Shop.Web.Models.Migrations
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<int>("Stock")
                         .HasColumnType("int");
