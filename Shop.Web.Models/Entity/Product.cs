@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Shop.Web.Models.Entity
 {
-    [Table("Table")]
+    [Table("Product")]
     public class Product
     {
         [Key]

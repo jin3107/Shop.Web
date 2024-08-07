@@ -21,24 +21,72 @@ namespace Shop.Web.Repositories.Implementation
 
         public async Task AddOrderWithItemsAsync(Order order, List<OrderItem> orderItems)
         {
-            try
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                await _context.Orders.AddAsync(order);
-                await _context.OrderItems.AddRangeAsync(orderItems);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.InnerException?.Message);
-                throw;
+                try
+                {
+                    await _context.Orders.AddAsync(order);
+                    await _context.SaveChangesAsync();
+
+                    foreach (var item in orderItems)
+                    {
+                        item.OrderId = order.Id;
+                        await _context.OrderItems.AddAsync(item);
+
+                        var product = await _context.Products.FindAsync(item.ProductId);
+                        if (product == null || product.Stock < item.Quantity)
+                        {
+                            throw new Exception($"Insufficient stock for product: {product?.Name ?? "Unknown"}");
+                        }
+
+                        product.Stock -= item.Quantity;
+                        _context.Products.Update(product);
+                    }
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
             }
         }
 
-        public async Task UpdateOrderWithItemsAsync(Order order, List<OrderItem> orderItems)
+        public async Task UpdateOrderWithItemsAsync(Order order, List<OrderItem> newOrderItems, List<OrderItem> existingOrderItems)
         {
-            _context.Orders.Update(order);
-            _context.OrderItems.UpdateRange(orderItems);
-            await _context.SaveChangesAsync();
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    _context.Orders.Update(order);
+                    _context.OrderItems.RemoveRange(existingOrderItems);
+                    foreach (var item in newOrderItems)
+                    {
+                        item.Id = Guid.NewGuid();
+                        item.OrderId = order.Id;
+                        await _context.OrderItems.AddAsync(item);
+
+                        var product = await _context.Products.FindAsync(item.ProductId);
+                        if (product == null || product.Stock < item.Quantity)
+                        {
+                            throw new Exception($"Insufficient stock for product: {product?.Name ?? "Unknown"}");
+                        }
+
+                        product.Stock -= item.Quantity;
+                        _context.Products.Update(product);
+                    }
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
         }
     }
 }

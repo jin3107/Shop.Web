@@ -14,8 +14,8 @@ namespace Shop.Web.Models.Entity
         [Key]
         public Guid Id { get; set; }
 
-        [ForeignKey("User")]
-        public Guid UserId { get; set; }
+        //[ForeignKey("User")]
+        //public Guid UserId { get; set; }
 
         [Required]
         public DateTime OrderDate { get; set; }
@@ -23,7 +23,7 @@ namespace Shop.Web.Models.Entity
         [Required]
         public OrderStatus Status { get; set; }
 
-        public User? User { get; set; }
+        //public User? User { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
     }
 
