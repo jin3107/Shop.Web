@@ -37,8 +37,16 @@ namespace Shop.Web.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrderItem([FromBody] OrderItemDTO orderItemDto)
         {
-            await _orderItemService.AddOrderItemAsync(orderItemDto);
-            return CreatedAtAction(nameof(GetOrderItemById), new { id = orderItemDto.Id }, orderItemDto);
+            try
+            {
+                await _orderItemService.AddOrderItemAsync(orderItemDto);
+                return CreatedAtAction(nameof(GetOrderItemById), new { id = orderItemDto.Id }, orderItemDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            } 
+            
         }
 
         [HttpPut("{id}")]

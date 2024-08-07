@@ -23,7 +23,6 @@ namespace Shop.Web.Models.Entity
         [Required]
         public OrderStatus Status { get; set; }
 
-
         public User? User { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
     }
