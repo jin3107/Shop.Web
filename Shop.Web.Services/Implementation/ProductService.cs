@@ -4,44 +4,47 @@ using Shop.Web.DTOs;
 using Shop.Web.Infratructures.Request;
 using Shop.Web.Infratructures.Response;
 using Shop.Web.Models.Entity;
-using Shop.Web.Repositories.Implementation;
 using Shop.Web.Repositories.Interface;
 using Shop.Web.Services.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shop.Web.Services.Implementation
 {
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository, IMapper mapper)
+        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository, IMapper mapper)
         {
             _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<ProductDTO>> GetAllAsync()
         {
-            var products = await _productRepository.GetAll().ToListAsync();
+            var products = await _productRepository.GetAllIncludingCategory().ToListAsync();
             return _mapper.Map<IEnumerable<ProductDTO>>(products);
         }
 
         public async Task<ProductDTO> GetByIdAsync(Guid id)
         {
-            var product = await _productRepository.GetByIdAsync(id);
+            var product = await _productRepository.GetByIdIncludingCategoryAsync(id);
             return _mapper.Map<ProductDTO>(product);
         }
 
         public async Task AddAsync(ProductDTO productDto)
         {
+            var category = await _categoryRepository.GetByIdAsync(productDto.CategoryId);
+            if (category == null)
+            {
+                throw new Exception("Invalid CategoryId.");
+            }
+
             var product = _mapper.Map<Product>(productDto);
             product.Id = Guid.NewGuid();
+            product.Category = null;
             await _productRepository.AddAsync(product);
         }
 
@@ -50,10 +53,17 @@ namespace Shop.Web.Services.Implementation
             var product = await _productRepository.GetByIdAsync(productDto.Id);
             if (product == null)
             {
-                throw new Exception($"Product Id does not found");
+                throw new Exception("Product Id not found.");
             }
 
-            _mapper.Map(product, productDto);
+            var category = await _categoryRepository.GetByIdAsync(productDto.CategoryId);
+            if (category == null)
+            {
+                throw new Exception("Invalid CategoryId.");
+            }
+
+            _mapper.Map(productDto, product);
+            product.Category = null;
             await _productRepository.UpdateAsync(product);
         }
 
@@ -62,7 +72,7 @@ namespace Shop.Web.Services.Implementation
             var product = await _productRepository.GetByIdAsync(id);
             if (product == null)
             {
-                throw new Exception($"Product Id does not found");
+                throw new Exception("Product Id not found.");
             }
 
             await _productRepository.DeleteAsync(id);

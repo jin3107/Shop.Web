@@ -58,9 +58,14 @@ namespace Shop.Web.Repositories.Implementation
             return response;
         }
 
-        private IQueryable<Product> GetAllIncludingCategory()
+        public IQueryable<Product> GetAllIncludingCategory()
         {
             return GetAll().Include(p => p.Category);
+        }
+
+        public async Task<Product> GetByIdIncludingCategoryAsync(Guid id)
+        {
+            return await GetAllIncludingCategory().FirstOrDefaultAsync(p => p.Id == id);
         }
         #endregion
 
@@ -88,7 +93,7 @@ namespace Shop.Web.Repositories.Implementation
                             }
                             break;
 
-                        case "price":
+                        case "Price":
                             if (decimal.TryParse(filter.Value, out decimal priceValue))
                             {
                                 switch (filter.Operation.ToLower())
@@ -106,7 +111,7 @@ namespace Shop.Web.Repositories.Implementation
                             }
                             break;
 
-                        case "categoryname":
+                        case "Categoryname":
                             switch (filter.Operation.ToLower())
                             {
                                 case "equals":

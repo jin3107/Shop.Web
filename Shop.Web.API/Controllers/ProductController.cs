@@ -47,11 +47,23 @@ namespace Shop.Web.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> AddProduct(ProductDTO productDto)
+        [Authorize(Roles = "Admin, Manager")]
+        public async Task<IActionResult> AddProduct([FromBody] ProductDTO productDto)
         {
-            await _productService.AddAsync(productDto);
-            return CreatedAtAction(nameof(GetProductById), new { id = productDto.Id }, productDto);
+            if (productDto == null)
+            {
+                return BadRequest("Product data is null.");
+            }
+
+            try
+            {
+                await _productService.AddAsync(productDto);
+                return Ok("Product added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPut("{id}")]

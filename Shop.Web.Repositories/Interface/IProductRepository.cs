@@ -15,5 +15,8 @@ namespace Shop.Web.Repositories.Interface
         Task<IQueryable<Product>> SortByAsync(List<SortByInfo> sorts, IQueryable<Product> query);
         Task<IQueryable<Product>> FilterAsync(IQueryable<Product> query, List<Filter> filters);
         Task<SearchResponse<ProductDTO>> SearchAsync(List<Filter> filters, SortByInfo sortBy, int pageNumber, int pageSize);
+
+        IQueryable<Product> GetAllIncludingCategory();
+        Task<Product> GetByIdIncludingCategoryAsync(Guid id);
     }
 }
