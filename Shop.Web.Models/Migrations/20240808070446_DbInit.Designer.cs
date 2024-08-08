@@ -12,8 +12,8 @@ using Shop.Web.Models.Data;
 namespace Shop.Web.Models.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240807105053_ChangeNameProductTable")]
-    partial class ChangeNameProductTable
+    [Migration("20240808070446_DbInit")]
+    partial class DbInit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -248,15 +248,15 @@ namespace Shop.Web.Models.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Order");
                 });
@@ -276,7 +276,14 @@ namespace Shop.Web.Models.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
@@ -308,6 +315,11 @@ namespace Shop.Web.Models.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
@@ -316,33 +328,6 @@ namespace Shop.Web.Models.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Product");
-                });
-
-            modelBuilder.Entity("Shop.Web.Models.Entity.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("Role")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -396,22 +381,11 @@ namespace Shop.Web.Models.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Shop.Web.Models.Entity.Order", b =>
-                {
-                    b.HasOne("Shop.Web.Models.Entity.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Shop.Web.Models.Entity.OrderItem", b =>
                 {
                     b.HasOne("Shop.Web.Models.Entity.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

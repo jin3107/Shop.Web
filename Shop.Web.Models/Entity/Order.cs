@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shop.Web.Enums;
 
 namespace Shop.Web.Models.Entity
 {
@@ -14,25 +15,11 @@ namespace Shop.Web.Models.Entity
         [Key]
         public Guid Id { get; set; }
 
-        //[ForeignKey("User")]
-        //public Guid UserId { get; set; }
-
         [Required]
         public DateTime OrderDate { get; set; }
 
         [Required]
         public OrderStatus Status { get; set; }
-
-        //public User? User { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
-    }
-
-    public enum OrderStatus
-    {
-        Pending,
-        Processing,
-        Shipped,
-        Delivered,
-        Cancelled
     }
 }

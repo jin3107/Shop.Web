@@ -18,25 +18,5 @@ namespace Shop.Web.Models.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Category>()
-                .HasMany(c => c.Products)
-                .WithOne(p => p.Category)
-                .HasForeignKey(p => p.CategoryId);
-
-            modelBuilder.Entity<Product>()
-                .HasMany(p => p.OrderItems)
-                .WithOne(oi => oi.Product)
-                .HasForeignKey(oi => oi.ProductId);
-
-            modelBuilder.Entity<Order>()
-                .HasMany(o => o.OrderItems)
-                .WithOne(oi => oi.Order)
-                .HasForeignKey(oi => oi.ProductId);
-        }
     }
 }

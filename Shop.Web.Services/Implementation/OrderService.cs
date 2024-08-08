@@ -34,19 +34,16 @@ namespace Shop.Web.Services.Implementation
 
         public async Task AddOrderAsync(OrderDTO orderDto)
         {
-            var order = _mapper.Map<Order>(orderDto);
-            order.Id = Guid.NewGuid();
-            order.OrderItems = new List<OrderItem>();
-
-            foreach (var itemDto in orderDto.OrderItems!)
+            try
             {
-                var orderItem = _mapper.Map<OrderItem>(itemDto);
-                orderItem.Id = Guid.NewGuid();
-                orderItem.OrderId = order.Id;
-                order.OrderItems.Add(orderItem);
+                var orderItems = orderDto.OrderItems ?? new List<OrderItemDTO>();
+                await _orderRepository.AddOrderWithItemsAsync(orderDto, orderItems);
             }
-
-            await _orderRepository.AddOrderWithItemsAsync(order, order.OrderItems.ToList());
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw;
+            }
         }
 
         public async Task UpdateOrderAsync(OrderDTO orderDto)

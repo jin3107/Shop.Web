@@ -12,8 +12,8 @@ using Shop.Web.Models.Data;
 namespace Shop.Web.Models.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240807122335_DropUserfromOrder")]
-    partial class DropUserfromOrder
+    [Migration("20240808113344_Update_DbInit3")]
+    partial class Update_DbInit3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -262,6 +262,9 @@ namespace Shop.Web.Models.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
 
@@ -272,6 +275,8 @@ namespace Shop.Web.Models.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
 
@@ -368,7 +373,7 @@ namespace Shop.Web.Models.Migrations
                 {
                     b.HasOne("Shop.Web.Models.Entity.Order", "Order")
                         .WithMany("OrderItems")
-                        .HasForeignKey("ProductId")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
