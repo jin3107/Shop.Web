@@ -9,6 +9,7 @@ namespace Shop.Web.Repositories.Interface
 {
     public interface IOrderRepository : IRepository<Order>
     {
+        Task<IEnumerable<Order>> GetAllOrdersWithItemsAsync();
         Task<Order?> GetOrderWithItemsAsync(Guid orderId);
         Task AddOrderAsync(Order order);
         Task<bool> ProductExistsAsync(Guid productId);

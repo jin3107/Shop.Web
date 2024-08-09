@@ -26,8 +26,11 @@ namespace Shop.Web.Services.Implementation
 
         public async Task<IEnumerable<OrderDTO>> GetAllOrdersAsync()
         {
-            var orders = await _orderRepository.GetAll().ToListAsync();
-            return orders.Select(order => _mapper.Map<OrderDTO>(order));
+            //var orders = await _orderRepository.GetAll().ToListAsync();
+            //return orders.Select(order => _mapper.Map<OrderDTO>(order));
+
+            var orders = await _orderRepository.GetAllOrdersWithItemsAsync();
+            return orders.Select(order => _mapper.Map<OrderDTO>(order)).ToList();
         }
 
         public async Task<OrderDTO?> GetOrderByIdAsync(Guid id)

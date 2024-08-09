@@ -20,6 +20,14 @@ namespace Shop.Web.Repositories.Implementation
             _context = context;
         }
 
+        public async Task<IEnumerable<Order>> GetAllOrdersWithItemsAsync()
+        {
+            return await _context.Orders.AsNoTracking()
+                .Include(o => o.OrderItems!)
+                .ThenInclude(oi => oi.Product)
+                .ToListAsync();
+        }
+
         public async Task<Order?> GetOrderWithItemsAsync(Guid orderId)
         {
             return await _context.Orders.AsNoTracking()
