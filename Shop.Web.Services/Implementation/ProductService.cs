@@ -43,14 +43,14 @@ namespace Shop.Web.Services.Implementation
             }
 
             var product = _mapper.Map<Product>(productDto);
-            product.Id = Guid.NewGuid();
+            product.ProductId = Guid.NewGuid();
             product.Category = null;
             await _productRepository.AddAsync(product);
         }
 
         public async Task UpdateAsync(ProductDTO productDto)
         {
-            var product = await _productRepository.GetByIdAsync(productDto.Id);
+            var product = await _productRepository.GetByIdAsync(productDto.ProductId);
             if (product == null)
             {
                 throw new Exception("Product Id not found.");

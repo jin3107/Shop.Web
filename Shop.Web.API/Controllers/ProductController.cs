@@ -70,7 +70,7 @@ namespace Shop.Web.API.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateProduct(Guid id, ProductDTO productDto)
         {
-            if (id != productDto.Id)
+            if (id != productDto.ProductId)
             {
                 return BadRequest();
             }

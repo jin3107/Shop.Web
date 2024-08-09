@@ -12,8 +12,8 @@ using Shop.Web.Models.Data;
 namespace Shop.Web.Models.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240808120925_Update_DbInit4")]
-    partial class Update_DbInit4
+    [Migration("20240809133935_RenameId")]
+    partial class RenameId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -225,7 +225,7 @@ namespace Shop.Web.Models.Migrations
 
             modelBuilder.Entity("Shop.Web.Models.Entity.Category", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("CategoryId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -234,14 +234,14 @@ namespace Shop.Web.Models.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CategoryId");
 
                     b.ToTable("Category");
                 });
 
             modelBuilder.Entity("Shop.Web.Models.Entity.Order", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -251,14 +251,14 @@ namespace Shop.Web.Models.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("OrderId");
 
                     b.ToTable("Order");
                 });
 
             modelBuilder.Entity("Shop.Web.Models.Entity.OrderItem", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("OrderItemId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -271,7 +271,7 @@ namespace Shop.Web.Models.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("OrderItemId");
 
                     b.HasIndex("OrderId");
 
@@ -282,7 +282,7 @@ namespace Shop.Web.Models.Migrations
 
             modelBuilder.Entity("Shop.Web.Models.Entity.Product", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ProductId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -308,7 +308,7 @@ namespace Shop.Web.Models.Migrations
                     b.Property<int>("Stock")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("ProductId");
 
                     b.HasIndex("CategoryId");
 

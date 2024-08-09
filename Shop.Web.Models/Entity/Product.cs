@@ -13,7 +13,7 @@ namespace Shop.Web.Models.Entity
     public class Product
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid ProductId { get; set; }
 
         [Required]
         [MaxLength(100)]
@@ -38,5 +38,10 @@ namespace Shop.Web.Models.Entity
 
         public Category? Category { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
+    
+        public Product()
+        {
+            OrderItems = new List<OrderItem>();
+        }
     }
 }

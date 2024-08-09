@@ -5,7 +5,7 @@
 namespace Shop.Web.Models.Migrations
 {
     /// <inheritdoc />
-    public partial class Update_DbInit5 : Migration
+    public partial class DeleteProductandOrder_in_OrderItem : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

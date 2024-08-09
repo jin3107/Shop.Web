@@ -10,7 +10,9 @@ namespace Shop.Web.Services.Interface
     public interface IOrderService
     {
         Task<IEnumerable<OrderDTO>> GetAllOrdersAsync();
-        Task<OrderDTO> GetOrderByIdAsync(Guid id);
+        Task<OrderDTO?> GetOrderByIdAsync(Guid id);
+        Task<OrderDTO?> GetOrderWithItemsAsync(Guid orderId);
+        Task<IEnumerable<OrderDTO>> GetOrdersByProductIdAsync(Guid productId);
         Task AddOrderAsync(OrderDTO orderDto);
         Task UpdateOrderAsync(OrderDTO orderDto);
         Task DeleteOrderAsync(Guid id);

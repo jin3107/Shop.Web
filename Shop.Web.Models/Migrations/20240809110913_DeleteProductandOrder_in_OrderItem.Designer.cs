@@ -12,8 +12,8 @@ using Shop.Web.Models.Data;
 namespace Shop.Web.Models.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240808071648_Update_DbInit")]
-    partial class Update_DbInit
+    [Migration("20240809110913_DeleteProductandOrder_in_OrderItem")]
+    partial class DeleteProductandOrder_in_OrderItem
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -368,21 +368,17 @@ namespace Shop.Web.Models.Migrations
 
             modelBuilder.Entity("Shop.Web.Models.Entity.OrderItem", b =>
                 {
-                    b.HasOne("Shop.Web.Models.Entity.Order", "Order")
+                    b.HasOne("Shop.Web.Models.Entity.Order", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Shop.Web.Models.Entity.Product", "Product")
+                    b.HasOne("Shop.Web.Models.Entity.Product", null)
                         .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Order");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Shop.Web.Models.Entity.Product", b =>

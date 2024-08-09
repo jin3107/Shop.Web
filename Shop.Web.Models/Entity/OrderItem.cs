@@ -12,19 +12,22 @@ namespace Shop.Web.Models.Entity
     public class OrderItem
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid OrderItemId { get; set; }
+
 
         [ForeignKey("Order")]
         public Guid OrderId { get; set; }
 
+
         [ForeignKey("Product")]
         public Guid ProductId { get; set; }
 
+
         [Required]
         public int Quantity { get; set; }
-
 
         public Order? Order { get; set; }
         public Product? Product { get; set; }
     }
 }
+

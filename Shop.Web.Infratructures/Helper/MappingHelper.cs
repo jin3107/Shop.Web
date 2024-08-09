@@ -20,7 +20,6 @@ namespace Shop.Web.Infratructures.Helper
             CreateMap<Category, CategoryDTO>().ReverseMap();
             CreateMap<Order, OrderDTO>().ReverseMap();
             CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
-            CreateMap<User, UserDTO>().ReverseMap();
 
             CreateMap<SignIn, SignInDTO>().ReverseMap();
             CreateMap<LogIn, LogInDTO>().ReverseMap();

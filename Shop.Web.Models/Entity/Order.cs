@@ -13,7 +13,7 @@ namespace Shop.Web.Models.Entity
     public class Order
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid OrderId { get; set; }
 
         [Required]
         public DateTime OrderDate { get; set; }
@@ -21,5 +21,11 @@ namespace Shop.Web.Models.Entity
         [Required]
         public OrderStatus Status { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
+        
+        public Order()
+        {
+            OrderItems = new List<OrderItem>();
+        }
+    
     }
 }

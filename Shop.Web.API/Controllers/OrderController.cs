@@ -34,38 +34,69 @@ namespace Shop.Web.API.Controllers
             return Ok(order);
         }
 
+        [HttpGet("{id}/items")]
+        public async Task<IActionResult> GetOrderWithItems(Guid id)
+        {
+            var order = await _orderService.GetOrderWithItemsAsync(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
+        }
+
+        [HttpGet("product/{productId}")]
+        public async Task<IActionResult> GetOrdersByProductId(Guid productId)
+        {
+            var orders = await _orderService.GetOrdersByProductIdAsync(productId);
+            return Ok(orders);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> AddOrder(OrderDTO orderDto)
+        public async Task<IActionResult> AddOrder([FromBody] OrderDTO orderDto)
         {
             try
             {
                 await _orderService.AddOrderAsync(orderDto);
-                return Ok();
+                return Ok("Order added successfully");
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return BadRequest(new { message = ex.Message});
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] OrderDTO orderDto)
         {
-            if (id != orderDto.Id)
+            try
             {
-                return BadRequest();
-            }
+                if (id != orderDto.OrderId)
+                {
+                    return BadRequest();
+                }
 
-            await _orderService.UpdateOrderAsync(orderDto);
-            return NoContent();
+                await _orderService.UpdateOrderAsync(orderDto);
+                return NoContent();
+            }
+            catch(Exception ex) 
+            { 
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(Guid id)
         {
-            await _orderService.DeleteOrderAsync(id);
-            return NoContent();
+            try
+            {
+                await _orderService.DeleteOrderAsync(id);
+                return NoContent();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

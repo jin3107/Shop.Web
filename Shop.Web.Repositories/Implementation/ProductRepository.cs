@@ -34,7 +34,7 @@ namespace Shop.Web.Repositories.Implementation
 
             var result = products.Select(product => new ProductDTO
             {
-                Id = product.Id,
+                ProductId = product.ProductId,
                 Name = product.Name,
                 Price = product.Price,
                 Description = product.Description,
@@ -65,7 +65,7 @@ namespace Shop.Web.Repositories.Implementation
 
         public async Task<Product> GetByIdIncludingCategoryAsync(Guid id)
         {
-            return await GetAllIncludingCategory().FirstOrDefaultAsync(p => p.Id == id);
+            return await GetAllIncludingCategory().FirstOrDefaultAsync(p => p.ProductId == id);
         }
         #endregion
 

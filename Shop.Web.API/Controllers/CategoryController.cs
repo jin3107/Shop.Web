@@ -38,13 +38,13 @@ namespace Shop.Web.API.Controllers
         public async Task<IActionResult> AddCategory([FromBody] CategoryDTO categoryDto)
         {
             await _categoryService.AddCategoryAsync(categoryDto);
-            return CreatedAtAction(nameof(GetCategoryById), new { id = categoryDto.Id }, categoryDto);
+            return CreatedAtAction(nameof(GetCategoryById), new { id = categoryDto.CategoryId }, categoryDto);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCategory(Guid id, [FromBody] CategoryDTO categoryDto)
         {
-            if (id != categoryDto.Id)
+            if (id != categoryDto.CategoryId)
             {
                 return BadRequest();
             }

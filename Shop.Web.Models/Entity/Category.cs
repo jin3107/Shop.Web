@@ -12,7 +12,7 @@ namespace Shop.Web.Models.Entity
     public class Category
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid CategoryId { get; set; }
 
         [Required]
         [MaxLength(100)]
